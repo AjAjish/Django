@@ -1,0 +1,140 @@
+CRUD OPERATION
+C - Create
+R - Read
+U - Update
+D - Delete
+
+CRUD is an acronym that stands for Create, Read, Update, and Delete.
+These four basic operations are fundamental to how data is managed in databases and applications.
+They represent the essential actions needed to interact with stored information, whether it's in a database,
+API, or other storage system. 
+========================================================================================================================
+========================================================================================================================
+
+Create:
+
+This involves adding new data records to a database or storage system.
+For example, creating a new user account in a system adds a new record to the user table.
+
+Read:
+
+This operation retrieves or views existing data.
+This could be anything from displaying a list of products to viewing a user's profile. 
+
+Update:
+
+This allows for modification of existing data.
+Updating a user's email address or changing the price of a product are examples of update operations. 
+
+Delete:
+
+This removes data records from a database or storage system.
+Deleting a user account or removing a product from a catalog are examples of delete operations. 
+
+========================================================================================================================
+========================================================================================================================
+
+
+CRUD OPERATION IN HTTP 
+
+In the context of HTTP, CRUD operations (Create, Read, Update, Delete) are typically mapped to specific HTTP methods.
+POST is commonly used for creating new resources,
+GET for reading or retrieving resources,
+PUT or PATCH for updating resources,
+and DELETE for removing resources. 
+
+Create (POST):
+
+The POST method is used to create a new resource on the server.
+For example, when creating a new user account, you would send a POST request to a /users endpoint. 
+
+Read (GET):
+
+The GET method is used to retrieve data from the server.
+This could be a single resource, like fetching a specific user by ID, or a list of resources, like all users. 
+
+Update (PUT/PATCH):
+
+PUT: The PUT method replaces an entire resource with the data provided in the request body.
+For instance, to update all fields of a user, you would send a PUT request to /users/{id} with the complete updated
+user information. 
+
+PATCH: The PATCH method is used to partially update a resource.
+You would send a request with only the fields that need to be changed. For example,
+to update only the email address of a user, you would send a PATCH request to /users/{id} with the new email. 
+
+Delete (DELETE):
+The DELETE method is used to remove a resource from the server.
+For example, to delete a user, you would send a DELETE request to /users/{id}. 
+
+========================================================================================================================
+========================================================================================================================
+
+Additional Notes
+
+Django supports all standard HTTP methods:
+
+GET
+POST
+PUT
+DELETE
+PATCH
+HEAD
+OPTIONS
+TRACE
+
+However, in practice:
+
+HTML forms only support GET and POST.
+PUT, DELETE, and PATCH are typically used with AJAX/JavaScript or 
+APIs (like Django REST Framework).
+Django views can check request.method for any of these methods.
+
+Browsers natively support only GET and POST methods for HTML forms.
+Other methods like PUT, DELETE, and PATCH can be used via JavaScript 
+(AJAX/fetch), but not directly from standard forms.
+
+========================================================================================================================
+========================================================================================================================
+
+QuerySet
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+role = [admin,user]
+
+
+FormData(user_id,first_name,last_name,phone_no,email,address,role)
+
+
+if role = FormData.role == admin
+    list_form_data   he can add,edit,delete
+
+else
+    view_form_data   he can only view
+
+
+
+ 
+         ==========================>(set password) ==================>   (email inbox)   ==========>(get password)   
+    Django BackEnd               register.html         SMPTServer            Client           password
+     (sore on FormData.password) <==============================     (given password)   <=======================                                  
+
+
+
+
+app_name = Django
+app_password = zhwr qsug homx hxjv

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit User Details</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #ffffff;
+        color: #000000;
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        min-height: 100vh;
+        padding: 30px;
+      }
+
+      .container {
+        background-color: #f0f0f0;
+        border-radius: 15px;
+        padding: 30px;
+        width: 100%;
+        max-width: 800px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #000000;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"] {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        width: 100%;
+        background-color: #ffffff;
+        color: #000000;
+      }
+
+      input[type="submit"] {
+        background-color: #000000;
+        color: #ffffff;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #333333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Edit User Information</h2>
+      <form method="post" action="">
+        {% csrf_token %}
+        <div>
+          <label for="first_name">First Name*:</label>
+          <input
+            type="text"
+            id="first_name"
+            name="first_name"
+            value="{{ user.first_name }}"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="last_name">Last Name:</label>
+          <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            value="{{ user.last_name }}"
+          />
+        </div>
+
+        <div>
+          <label for="phone_no">Phone No*:</label>
+          <input
+            type="tel"
+            id="phone_no"
+            name="phone_no"
+            value="{{ user.phone_no }}"
+            required
+          />
+          {% if ph_no_error %}
+          <div style="color: red">{{ ph_no_error }}</div>
+          {% endif %}
+        </div>
+
+        <div>
+          <label for="email">Email*:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="{{ user.email }}"
+            required
+          />
+          {% if email_error %}
+          <div style="color: red">{{ email_error }}</div>
+          {% endif %}
+        </div>
+
+        <div>
+          <label for="address">Address:</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            value="{{ user.address }}"
+          />
+        </div>
+        {% if error %}
+        <div style="color: red">{{ error }}</div>
+        {% endif %}
+        <input type="submit" value="Update" />
+      </form>
+    </div>
+  </body>
+</html>

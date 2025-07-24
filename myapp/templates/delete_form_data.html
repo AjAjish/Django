@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delete User</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #ffffff;
+        color: #000000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 30px;
+      }
+
+      .container {
+        background-color: #f5f5f5;
+        border-radius: 15px;
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #000000;
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 18px;
+        margin-bottom: 30px;
+        color: #333333;
+      }
+
+      form {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      button {
+        padding: 12px 25px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+        color: #ffffff;
+      }
+
+      .btn-delete {
+        background-color: #000000;
+      }
+
+      .btn-delete:hover {
+        background-color: #333333;
+      }
+
+      .btn-cancel {
+        background-color: #555555;
+      }
+
+      .btn-cancel:hover {
+        background-color: #777777;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Delete User Confirmation</h2>
+      <p>
+        Are you sure you want to delete
+        <strong>{{ user.first_name }} {{ user.last_name }}</strong>'s record?
+      </p>
+
+      <form method="post" action="">
+        {% csrf_token %}
+        <button type="submit" class="btn-delete">Yes, Delete</button>
+        <a
+          href="{% url 'list_form_data' %}"
+          class="btn-cancel"
+          style="
+            text-decoration: none;
+            display: inline-block;
+            padding: 12px 25px;
+          "
+          >Cancel</a
+        >
+      </form>
+    </div>
+  </body>
+</html>

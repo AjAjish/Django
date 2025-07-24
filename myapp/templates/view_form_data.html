@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Data List</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #ffffff;
+        color: #000000;
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        min-height: 100vh;
+        padding: 30px;
+      }
+
+      .container {
+        background-color: #f8f8f8;
+        border-radius: 15px;
+        padding: 30px;
+        width: 100%;
+        max-width: 1000px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #000000;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #cccccc;
+        text-align: left;
+      }
+
+      th {
+        background-color: #e0e0e0;
+        color: #000000;
+      }
+
+      tr:hover {
+        background-color: #f0f0f0;
+      }
+
+      .no-data {
+        text-align: center;
+        padding: 20px;
+        font-size: 18px;
+        color: #777777;
+      }
+
+      .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #ffffff;
+        transition: background 0.3s;
+      }
+
+      .btn-edit {
+        background-color: #000000;
+      }
+
+      .btn-edit:hover {
+        background-color: #333333;
+      }
+
+      .btn-delete {
+        background-color: #555555;
+      }
+
+      .btn-delete:hover {
+        background-color: #777777;
+      }
+
+      .btn-logout {
+        background-color: #ff4747;
+        margin-left: 10px;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .btn-logout:hover {
+        background-color: #ff6363;
+      }
+
+      .search-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 15px;
+        align-items: center;
+      }
+
+      .search-container input {
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        width: 200px;
+      }
+
+      /* Align buttons in the header */
+      .header-btns {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Logout Button -->
+      <div class="header-btns">
+        <a href="{% url 'logout' %}" class="btn btn-logout">Logout</a>
+      </div>
+
+      <!-- Search Field -->
+      <form method="post" action="{% url 'search' %}" class="search-container">
+        {% csrf_token %}
+        <input type="text" id="search_email" name="search_email" placeholder="Search Email..." value="{{ request.POST.search_email }}">
+        <button type="submit" class="btn btn-edit">Search</button>
+      </form>
+
+      <h2>Submitted User Details</h2>
+
+      {% if users %}
+      <table>
+        <thead>
+          <tr>
+            <th>S No</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone No</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Field</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.phone_no }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.address }}</td>
+            <td>{{ user.role }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="no-data">No user data available.</div>
+      {% endif %}
+    </div>
+  </body>
+</html>
