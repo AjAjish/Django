@@ -105,8 +105,10 @@
             id="first_name" 
             name="first_name" 
             value="{{ request.POST.first_name }}" 
-             
           />
+          {% if first_name_error %}
+            <div class="error-message">{{ first_name_error }}</div>
+          {% endif %}
         </div>
 
         <!-- Last Name Field -->
@@ -142,8 +144,7 @@
             type="text" 
             id="phone_no" 
             name="phone_no" 
-            value="{{ request.POST.phone_no }}" 
-            required 
+            value="{{ request.POST.phone_no }}"  
           />
           {% if ph_no_error %}
             <div class="error-message">{{ ph_no_error }}</div>

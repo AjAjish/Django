@@ -130,7 +130,7 @@
       </div>
 
       <!-- Search Field -->
-      <form method="post" action="{% url 'search' %}" class="search-container">
+      <form method="post" action="{% url 'search_by_user' %}" class="search-container">
         {% csrf_token %}
         <input type="text" id="search_email" name="search_email" placeholder="Search Email..." value="{{ request.POST.search_email }}">
         <button type="submit" class="btn btn-edit">Search</button>

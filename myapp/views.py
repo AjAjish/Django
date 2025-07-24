@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.urls import reverse
 from .models import FormData
+import re
 
 def home(request): 
     if request.method == 'GET':
@@ -13,10 +14,20 @@ def add_form_data(request):
     if request.method == 'POST':
         # POST method is used for form submission and data creation.
         first_name = request.POST.get('first_name')
+        if not first_name:
+            return render(request, 'form.html', {'first_name_error': 'First name is required.'})
         last_name = request.POST.get('last_name')
+        if not last_name:
+            last_name = '-'
         email = request.POST.get('email')
+        if not email:
+            return render(request, 'form.html', {'email_error': 'Email is required.'})
         phone_no = request.POST.get('phone_no')
+        if not phone_no:
+            return render(request, 'form.html', {'ph_no_error': 'Phone number is required.'})
         address = request.POST.get('address')
+        if not address:
+            address = '-'
         
         if FormData.objects.filter(phone_no=phone_no).exists():
             return render(request, 'form.html', {'ph_no_error' : 'Phone number already exists.'})
@@ -43,15 +54,26 @@ def edit_form_data(request, user_id):
         return render(request, 'edit_form_data.html', {'error': 'User not found.'})
     if request.method == 'POST':
         user.first_name = request.POST.get('first_name')
+        if not user.first_name:
+            return render(request, 'edit_form_data.html', {'user': user, 'first_name_error': 'First name is required.'})
         user.last_name = request.POST.get('last_name')
+        if not user.last_name:
+            user.last_name = '-'
         user.email = request.POST.get('email')
+        if not user.email:
+            return render(request, 'edit_form_data.html', {'user': user, 'email_error': 'Email is required.'})
         user.phone_no = request.POST.get('phone_no')
+        if not user.phone_no:
+            return render(request, 'edit_form_data.html', {'user': user, 'ph_no_error': 'Phone number is required.'})
         user.address = request.POST.get('address')
+        if not user.address:
+            user.address = '-'
+
         if FormData.objects.filter(phone_no=user.phone_no).exclude(user_id=user.user_id).exists():
             return render(request, 'edit_form_data.html', {'user': user, 'ph_no_error': 'Phone number already exists.'})
         if FormData.objects.filter(email=user.email).exclude(user_id=user.user_id).exists():
             return render(request, 'edit_form_data.html', {'user': user, 'email_error': 'Email already exists.'})
-        print(user.first_name, user.last_name, user.email, user.phone_no, user.address)
+        
         user.save()
         messages.success(request, 'Form data updated successfully.')
         return redirect('list_form_data')
@@ -87,32 +109,60 @@ def view_form_data(request):
 def register(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
+        if not first_name:
+            return render(request, 'register.html', {'first_name_error': 'First name is required.'})
         last_name = request.POST.get('last_name')
+        if not last_name:
+            last_name = '-'
         email = request.POST.get('email')
+        if not email:
+            return render(request, 'register.html', {'email_error': 'Email is required.'})
         phone_no = request.POST.get('phone_no')
+        if not phone_no :
+            return render(request, 'register.html', {'ph_no_error': 'Phone number is required.'})
         address = request.POST.get('address')
+        if not address:
+            address = '-'
 
-        user = FormData.objects.create(first_name=first_name, last_name=last_name, email=email, phone_no=phone_no, address=address)
-        send_welcome_email(request, user.user_id)
-
+        if FormData.objects.filter(phone_no=phone_no).exists():
+            return render(request, 'register.html', {'ph_no_error': 'Phone number already exists.'})
+        if FormData.objects.filter(email=email).exists():
+            return render(request, 'register.html', {'email_error': 'Email already exists.'})
+        
+        if first_name and email and phone_no:
+            user = FormData.objects.create(first_name=first_name, last_name=last_name, email=email, phone_no=phone_no, address=address)
+            messages.success(request, 'Registration successful. Check your email for set pawwsoed.')
+            send_welcome_email(request, user.user_id)
+            return redirect('home')
     return render(request, 'register.html')
 
 def logout(request):
+    messages.success(request, 'Logged out successfully.')
     return redirect('home')
 
-def search(request):
+def search_by_admin(request):
     if request.method == 'POST':
         search_email = request.POST.get('search_email', '')
         users = FormData.objects.all().filter(email__icontains=search_email).values()
         return render(request, 'list_form_data.html', {'users': users})
     return render(request, 'list_form_data.html', {'users': FormData.objects.all()})
 
+def search_by_user(request):
+    if request.method == 'POST':
+        search_email = request.POST.get('search_email', '')
+        users = FormData.objects.all().filter(email__icontains=search_email).values()
+        return render(request, 'view_form_data.html', {'users': users})
+    return render(request, 'view_form_data.html', {'users': FormData.objects.all()})
 
 def set_password(request, user_id):
     user = get_object_or_404(FormData, user_id=user_id)
     if request.method == 'POST':
         password = request.POST.get('password')
+        if not password:
+            return render(request, 'set_password.html', {'user': user, 'password_error': 'Password is required.'})
         confirm_password = request.POST.get('confirm_password')
+        if not confirm_password:
+            return render(request, 'set_password.html', {'user': user, 'password_error': 'Confirm password is required.'})
         if password != confirm_password:
             return render(request, 'set_password.html', {'user': user, 'password_error': 'Passwords do not match.'})
         user.password = password
