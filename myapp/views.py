@@ -1,5 +1,8 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
+from django.http import HttpResponse
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.urls import reverse
 from .models import FormData
 
 def home(request): 
@@ -88,21 +91,9 @@ def register(request):
         email = request.POST.get('email')
         phone_no = request.POST.get('phone_no')
         address = request.POST.get('address')
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
 
-        if password != confirm_password:
-            return render(request, 'register.html', {'password_error': 'Passwords do not match.'})
-
-        if FormData.objects.filter(phone_no=phone_no).exists():
-            return render(request, 'register.html', {'ph_no_error': 'Phone number already exists.'})
-
-        if FormData.objects.filter(email=email).exists():
-            return render(request, 'register.html', {'email_error': 'Email already exists.'})
-
-        FormData.objects.create(first_name=first_name, last_name=last_name, email=email, phone_no=phone_no, address=address, password=password)
-        messages.success(request, 'Registration successful. Please log in.')
-        return redirect('login')
+        user = FormData.objects.create(first_name=first_name, last_name=last_name, email=email, phone_no=phone_no, address=address)
+        send_welcome_email(request, user.user_id)
 
     return render(request, 'register.html')
 
@@ -115,3 +106,48 @@ def search(request):
         users = FormData.objects.all().filter(email__icontains=search_email).values()
         return render(request, 'list_form_data.html', {'users': users})
     return render(request, 'list_form_data.html', {'users': FormData.objects.all()})
+
+
+def set_password(request, user_id):
+    user = get_object_or_404(FormData, user_id=user_id)
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        if password != confirm_password:
+            return render(request, 'set_password.html', {'user': user, 'password_error': 'Passwords do not match.'})
+        user.password = password
+        user.save()
+        messages.success(request, 'Password set successfully. Please log in.')
+        return redirect('login')
+    return render(request, 'set_password.html', {'user': user})
+
+
+def send_welcome_email(request, user_id):
+    user = FormData.objects.get(user_id=user_id)
+    # Construct the URL for the "Set Password" button
+    set_password_url = request.build_absolute_uri(reverse('set_password', args=[user_id]))
+
+    subject = "Set Password"
+    message = f"""
+    <html>
+        <body>
+            <p>Welcome to our website, {user.first_name}!</p>
+            <p>You can set your password by clicking the button below:</p>
+            <a href="{set_password_url}" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px; font-size: 16px;">
+                Set Password
+            </a>
+        </body>
+    </html>
+    """
+
+    # Send the email
+    send_mail(
+        subject,
+        '',
+        'helloffyt100@gmail.com',  # From Email Address
+        [user.email],                # Recipient Email
+        fail_silently=False,
+        html_message=message,        # HTML Email Body
+    )
+    
+    return HttpResponse('Welcome email sent!')

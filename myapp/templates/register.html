@@ -105,7 +105,7 @@
             id="first_name" 
             name="first_name" 
             value="{{ request.POST.first_name }}" 
-            required 
+             
           />
         </div>
 
@@ -128,7 +128,7 @@
             id="email" 
             name="email" 
             value="{{ request.POST.email }}" 
-            required 
+             
           />
           {% if email_error %}
             <div class="error-message">{{ email_error }}</div>
@@ -157,32 +157,6 @@
             name="address" 
             >{{ request.POST.address }}</textarea>
         </div>
-
-        <!-- Password Field -->
-        <div>
-          <label for="password">Password*:</label>
-          <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            required 
-          />
-        </div>
-
-        <!-- Confirm Password Field -->
-        <div>
-          <label for="confirm_password">Confirm Password*:</label>
-          <input 
-            type="password" 
-            id="confirm_password" 
-            name="confirm_password" 
-            required 
-          />
-        </div>
-          
-          {% if password_error %}
-            <div class="error-message">{{ password_error }}</div>
-          {% endif %}
 
         <!-- Submit Button -->
         <input type="submit" value="Register" />

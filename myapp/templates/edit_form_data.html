@@ -82,7 +82,7 @@
             id="first_name"
             name="first_name"
             value="{{ user.first_name }}"
-            required
+            
           />
         </div>
 
@@ -103,7 +103,7 @@
             id="phone_no"
             name="phone_no"
             value="{{ user.phone_no }}"
-            required
+            
           />
           {% if ph_no_error %}
           <div style="color: red">{{ ph_no_error }}</div>
@@ -117,7 +117,7 @@
             id="email"
             name="email"
             value="{{ user.email }}"
-            required
+            
           />
           {% if email_error %}
           <div style="color: red">{{ email_error }}</div>
