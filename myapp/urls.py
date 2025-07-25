@@ -15,5 +15,6 @@ urlpatterns = [
     path('add_form_data/',views.add_form_data,name='add_form_data'),
     path('edit_form_data/<uuid:user_id>/', views.edit_form_data, name='edit_form_data'),
     path('delete_form_data/<uuid:user_id>/', views.delete_form_data, name='delete_form_data'),
+    path('forgot_password/',views.forgot_password,name='forgot_password'),
 
 ]

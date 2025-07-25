@@ -4,8 +4,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.urls import reverse
 from .models import FormData
-import re
-
+4
 def home(request): 
     if request.method == 'GET':
         return render(request, 'home.html')
@@ -201,3 +200,45 @@ def send_welcome_email(request, user_id):
     )
     
     return HttpResponse('Welcome email sent!')
+
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if not email:
+            return render(request, 'forgot_password.html', {'email_error': 'Email is required.'})
+        try:
+            user = FormData.objects.get(email=email)
+            send_forgot_password_email(request, user.user_id)
+            messages.success(request, 'Check your email to reset your password.')
+            return redirect('login')
+        except FormData.DoesNotExist:
+            return render(request, 'forgot_password.html', {'email_error': 'Email does not exist.'})
+    
+    return render(request, 'forgot_password.html')
+
+def send_forgot_password_email(request,user_id):
+    user = FormData.objects.get(user_id=user_id)
+    set_password_url = request.build_absolute_uri(reverse('set_password', args=[user_id]))
+
+    subject = "Reset Password"
+    message = f"""
+    <html>
+        <body>
+            <p>Hi {user.first_name},</p>
+            <p>Click the button below to reset your password:</p>
+            <a href="{set_password_url}" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px; font-size: 16px;">
+                Reset Password
+            </a>
+        </body>
+    </html>
+    """
+
+    send_mail(
+        subject,
+        '',
+        'helloffyt100@gmail.com',
+        [user.email],
+        fail_silently=False,
+        html_message=message,
+    )
+    return HttpResponse('Forgot password email sent!')

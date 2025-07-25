@@ -99,13 +99,26 @@ Other methods like PUT, DELETE, and PATCH can be used via JavaScript
 
 QuerySet
 
+========================================================================================================================
+========================================================================================================================
+
+JavaScript Toast
+
+In JavaScript, a "toast" refers to a small, non-blocking notification pop-up that briefly appears on the screen to 
+provide feedback or updates to the user.
+These notifications typically disappear automatically after a few seconds and are commonly used for alerts,
+confirmations, or brief status messages. 
 
 
+Non-intrusive:
+They appear as small overlays and do not interrupt the user's current activity.
 
+Brief display:
+They are designed to be shown for a limited duration, often with an automatic fade-out or slide-out animation.
 
-
-
-
+How to implement a JavaScript toast:
+While you can build a toast component from scratch using HTML, CSS, and JavaScript, many frameworks
+and libraries offer pre-built toast components for easier implementation.
 
 
 
