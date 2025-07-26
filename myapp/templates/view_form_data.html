@@ -71,32 +71,15 @@
         transition: background 0.3s;
       }
 
-      .btn-edit {
-        background-color: #000000;
-      }
-
-      .btn-edit:hover {
-        background-color: #333333;
-      }
-
-      .btn-delete {
-        background-color: #555555;
-      }
-
-      .btn-delete:hover {
-        background-color: #777777;
-      }
-
-      .btn-logout {
-        background-color: #ff4747;
-        margin-left: 10px;
-        padding: 8px 16px;
-        border-radius: 6px;
+      .btn-profile {
+        background-color: #007bff;
+        padding: 6px 12px;
         font-size: 14px;
+        border-radius: 6px;
       }
 
-      .btn-logout:hover {
-        background-color: #ff6363;
+      .btn-profile:hover {
+        background-color: #0056b3;
       }
 
       .search-container {
@@ -149,6 +132,7 @@
             <th>Email</th>
             <th>Address</th>
             <th>Field</th>
+            <th>Actions</th>  <!-- Added Actions Column -->
           </tr>
         </thead>
         <tbody>
@@ -161,6 +145,10 @@
             <td>{{ user.email }}</td>
             <td>{{ user.address }}</td>
             <td>{{ user.role }}</td>
+            <td>
+              <!-- Profile Button -->
+              <a href="{% url 'profile_view' user.user_id %}" class="btn btn-profile">Profile</a>
+            </td>
           </tr>
           {% endfor %}
         </tbody>

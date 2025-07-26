@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.urls import reverse
-from .models import FormData
-4
+from .models import FormData,FormDataDetails
+
 def home(request): 
     if request.method == 'GET':
         return render(request, 'home.html')
@@ -139,6 +139,14 @@ def logout(request):
     messages.success(request, 'Logged out successfully.')
     return redirect('home')
 
+def profile_logout(request, user_id):
+    if FormData.objects.filter(user_id=user_id,role='admin').exists():
+        messages.success(request, 'Logged out successfully.')
+        return redirect('list_form_data')
+    if FormData.objects.filter(user_id=user_id,role='user').exists():
+        messages.success(request, 'Logged out successfully.')
+        return redirect('view_form_data')
+
 def search_by_admin(request):
     if request.method == 'POST':
         search_email = request.POST.get('search_email', '')
@@ -149,9 +157,9 @@ def search_by_admin(request):
 def search_by_user(request):
     if request.method == 'POST':
         search_email = request.POST.get('search_email', '')
-        users = FormData.objects.all().filter(email__icontains=search_email).values()
+        users = FormData.objects.all().filter(email__icontains=search_email).values().exclude(role='admin')
         return render(request, 'view_form_data.html', {'users': users})
-    return render(request, 'view_form_data.html', {'users': FormData.objects.all()})
+    return render(request, 'view_form_data.html', {'users': FormData.objects.all().exclude(role='admin')})
 
 def set_password(request, user_id):
     user = get_object_or_404(FormData, user_id=user_id)
@@ -242,3 +250,7 @@ def send_forgot_password_email(request,user_id):
         html_message=message,
     )
     return HttpResponse('Forgot password email sent!')
+
+def profile_view(request,user_id):
+    user = FormData.objects.get(user_id=user_id)
+    return render(request, 'profile_view.html', {'user': user})

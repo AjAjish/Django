@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #ffffff;
+        color: #000000;
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        min-height: 100vh;
+        padding: 30px;
+      }
+
+      .container {
+        background-color: #f8f8f8;
+        border-radius: 15px;
+        padding: 30px;
+        width: 100%;
+        max-width: 1000px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        color: #000000;
+      }
+
+      .profile-pic {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        object-fit: cover;
+        border: 3px solid #007bff;
+      }
+
+      .profile-details {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #333;
+        text-align: left;
+      }
+
+      .profile-details p {
+        margin-bottom: 10px;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        font-size: 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #ffffff;
+        transition: background 0.3s;
+      }
+
+      .btn-logout {
+        background-color: #ff4747;
+        margin-top: 20px;
+      }
+
+      .btn-logout:hover {
+        background-color: #ff6363;
+      }
+
+      /* Align buttons in the header */
+      .header-btns {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Logout Button -->
+      <div class="header-btns">
+        <a href="{% url 'profile_logout' user.user_id %}" class="btn btn-logout">Logout</a>
+      </div>
+
+      <!-- Profile Picture -->
+      <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-pic" />
+
+      <!-- User Details -->
+      <h2>{{ user.first_name }} {{ user.last_name }}'s Profile</h2>
+      <div class="profile-details">
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone No:</strong> {{ user.phone_no }}</p>
+        <p><strong>Address:</strong> {{ user.address }}</p>
+      </div>
+    </div>
+  </body>
+</html>

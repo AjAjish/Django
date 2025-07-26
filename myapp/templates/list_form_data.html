@@ -96,6 +96,15 @@
         background-color: #ff6363;
       }
 
+      .btn-profile {
+        background-color: #007bff;
+        margin-left: 10px;
+      }
+
+      .btn-profile:hover {
+        background-color: #0056b3;
+      }
+
       .search-container {
         display: flex;
         justify-content: flex-end;
@@ -192,6 +201,8 @@
             <td>
               <a href="{% url 'edit_form_data' user.user_id %}" class="btn btn-edit">Edit</a>
               <a href="{% url 'delete_form_data' user.user_id %}" class="btn btn-delete">Delete</a>
+              <!-- Profile Button -->
+              <a href="{% url 'profile_view' user.user_id %}" class="btn btn-profile">Profile</a>
             </td>
           </tr>
           {% endfor %}

@@ -16,5 +16,6 @@ urlpatterns = [
     path('edit_form_data/<uuid:user_id>/', views.edit_form_data, name='edit_form_data'),
     path('delete_form_data/<uuid:user_id>/', views.delete_form_data, name='delete_form_data'),
     path('forgot_password/',views.forgot_password,name='forgot_password'),
-
+    path('profile_view/<uuid:user_id>/', views.profile_view, name='profile_view'),
+    path('profile_logout/<uuid:user_id>/', views.profile_logout, name='profile_logout'),
 ]

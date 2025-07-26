@@ -127,24 +127,14 @@ and libraries offer pre-built toast components for easier implementation.
 
 
 
-role = [admin,user]
+ FormData  is main table  it contains (first_name,last_name,email,password,address)
+ FormDataDetails is Additional table   it contains (user_id,imageField,fileField)  
 
-
-FormData(user_id,first_name,last_name,phone_no,email,address,role)
-
-
-if role = FormData.role == admin
-    list_form_data   he can add,edit,delete
-
-else
-    view_form_data   he can only view
-
-
-
- 
-         ==========================>(set password) ==================>   (email inbox)   ==========>(get password)   
-    Django BackEnd               register.html         SMPTServer            Client           password
-     (sore on FormData.password) <==============================     (given password)   <=======================                                  
+ fun profile()
+    
+    add profile*
+    add file
+    list user details
 
 
 
