@@ -1,0 +1,5 @@
+# Ignore environment variables file
+.env
+# Ignore python cache files
+__pycache__/
+/migrations/__pycache__/
