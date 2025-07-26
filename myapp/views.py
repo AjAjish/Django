@@ -254,3 +254,25 @@ def send_forgot_password_email(request,user_id):
 def profile_view(request,user_id):
     user = FormData.objects.get(user_id=user_id)
     return render(request, 'profile_view.html', {'user': user})
+
+def upload_profile_picture(request,user_id):
+    user = get_object_or_404(FormData, user_id=user_id)
+    if request.method == 'POST':
+        profile_picture = request.FILES.get('profile_picture')
+        if not profile_picture:
+            return render(request, 'upload_profile_picture.html', {'user': user, 'error': 'Profile picture is required.'})
+        if profile_picture.size > 2 * 1024 * 1024:
+            return render(request, 'upload_profile_picture.html', {'user': user, 'error': 'Profile picture must be within 2MB.'})
+        additional_file = request.FILES.get('additional_file',None)
+
+        FormDataDetails.objects.update_or_create(
+            user_id=user,
+            defaults={
+                'images': profile_picture,
+                'files': additional_file
+            }
+        )
+        messages.success(request, 'Profile picture updated successfully.')
+        return redirect('profile_view', user_id=user.user_id)
+
+    return render(request, 'upload_profile_picture.html', {'user': user})

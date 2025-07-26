@@ -71,24 +71,48 @@
         background-color: #ff6363;
       }
 
-      /* Align buttons in the header */
+      .btn-upload {
+        background-color: #007bff;
+        margin-top: 10px;
+      }
+
+      .btn-upload:hover {
+        background-color: #0056b3;
+      }
+
       .header-btns {
         display: flex;
         justify-content: flex-end;
         margin-bottom: 20px;
       }
-
     </style>
   </head>
   <body>
     <div class="container">
       <!-- Logout Button -->
       <div class="header-btns">
-        <a href="{% url 'profile_logout' user.user_id %}" class="btn btn-logout">Logout</a>
+        <a href="{% url 'profile_logout' user.user_id %}" class="btn btn-logout"
+          >Logout</a
+        >
       </div>
 
       <!-- Profile Picture -->
-      <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-pic" />
+      {% if user.profile_picture %}
+      <img
+        src="{{ user.profile_picture.url }}"
+        alt="Profile Picture"
+        class="profile-pic"
+      />
+      {% else %}
+      <p>No profile picture uploaded.</p>
+      {% endif %}
+
+      <a
+        href="{% url 'upload_profile_picture' user.user_id %}"
+        class="btn btn-upload"
+      >
+        Add Profile Picture
+      </a>
 
       <!-- User Details -->
       <h2>{{ user.first_name }} {{ user.last_name }}'s Profile</h2>

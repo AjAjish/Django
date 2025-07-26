@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Files</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #ffffff;
+      color: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      min-height: 100vh;
+      padding: 30px;
+    }
+
+    .container {
+      background-color: #f8f8f8;
+      border-radius: 15px;
+      padding: 30px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input[type="file"] {
+      margin: 10px 0;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #007bff;
+      transition: background 0.3s;
+      margin-top: 15px;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .back-link {
+      margin-top: 20px;
+      display: inline-block;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Upload Profile Picture and Additional File</h2>
+
+    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_profile_picture' user.user_id %}">
+      {% csrf_token %}
+      
+      <!-- Profile Picture Input -->
+      <label><strong>Profile Picture (Image only):</strong></label>
+      <input type="file" name="profile_picture" accept="image/*" required />
+
+      <!-- Additional File Input -->
+      <label><strong>Additional File (PDF, DOCX, TXT, etc.):</strong></label>
+      <input type="file" name="additional_file" accept=".pdf,.doc,.docx,.txt,.xlsx"  />
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn">Upload</button>
+    </form>
+
+    <a href="{% url 'profile_view' user.user_id %}" class="back-link">← Back to Profile</a>
+  </div>
+</body>
+</html>
